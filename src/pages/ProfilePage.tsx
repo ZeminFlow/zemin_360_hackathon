@@ -1,4 +1,5 @@
-import { ArrowLeft, Check, FlaskConical, MapPin, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import type { ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { PageContainer } from '../components/PageContainer'
 import { ScoreBreakdown } from '../components/ScoreBreakdown'
@@ -11,62 +12,61 @@ export function ProfilePage() {
   if (!startup) {
     return (
       <PageContainer className="py-16">
-        <h1 className="text-2xl font-semibold text-white">Startup not found</h1>
-        <Link to="/discover" className="mt-4 inline-flex text-sm font-medium text-brand-300 hover:text-brand-200">
-          Return to discover
+        <h1 className="text-3xl font-semibold text-paper">Girişim bulunamadı</h1>
+        <Link to="/discover" className="mt-5 inline-flex text-sm font-medium text-brand-300">
+          Keşfet sayfasına dön
         </Link>
       </PageContainer>
     )
   }
 
   return (
-    <PageContainer className="py-10 sm:py-16">
-      <Link to="/matches" className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white">
+    <PageContainer className="py-12 sm:py-16 lg:py-20">
+      <Link to="/matches" className="inline-flex items-center gap-2 text-sm text-muted hover:text-paper">
         <ArrowLeft className="size-4" />
-        Back to matches
+        Eşleşmelere dön
       </Link>
 
-      <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-        <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-start">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-            <span className={`grid size-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${startup.accentClass} text-lg font-bold text-white`}>
+      <header className="mt-10 grid gap-10 border-y border-divider py-10 lg:grid-cols-12">
+        <div className="lg:col-span-8">
+          <div className="flex items-start gap-5">
+            <span className="grid size-14 shrink-0 place-items-center border border-divider bg-panel font-mono text-sm text-paper">
               {startup.initials}
             </span>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-3xl font-semibold tracking-tight text-white">{startup.name}</h1>
-                <ShieldCheck className="size-5 text-emerald-400" aria-label="Evidence verified" />
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-4xl font-semibold tracking-[-0.05em] text-paper sm:text-5xl">{startup.name}</h1>
+                <span className="text-xs text-emerald-300">KANITLI</span>
               </div>
-              <p className="mt-2 text-base font-medium text-brand-300">{startup.category}</p>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">{startup.summary}</p>
-              <p className="mt-4 flex items-center gap-1.5 text-xs text-zinc-600">
-                <MapPin className="size-3.5" />
-                {startup.location}
-              </p>
+              <p className="mt-3 text-base text-brand-300">{startup.category}</p>
             </div>
           </div>
+          <p className="mt-8 max-w-3xl text-base leading-8 text-muted">{startup.summary}</p>
+        </div>
+
+        <div className="flex flex-col justify-between border-t border-divider pt-6 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+          <dl className="grid grid-cols-2 gap-6">
+            <CompanyDetail label="KONUM" values={[startup.location]} />
+            <CompanyDetail label="ÖLÇEK" values={[startup.stage]} />
+            <CompanyDetail label="SEKTÖRLER" values={startup.industries} />
+            <CompanyDetail label="TEKNOLOJİLER" values={startup.technologies} />
+          </dl>
           <Link
             to="/poc/demo-poc"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 hover:bg-zinc-200"
+            className="mt-8 inline-flex items-center justify-between bg-paper px-5 py-3.5 text-sm font-semibold text-canvas transition-colors hover:bg-brand-300"
           >
-            <FlaskConical className="size-4" />
-            Start POC
+            PoC Başlat
+            <ArrowRight className="size-4" />
           </Link>
         </div>
+      </header>
 
-        <div className="mt-8 grid gap-4 border-t border-white/8 pt-7 sm:grid-cols-3">
-          <CompanyDetail label="Industries" values={startup.industries} />
-          <CompanyDetail label="Technologies" values={startup.technologies} />
-          <CompanyDetail label="Stage" values={[startup.stage]} />
-        </div>
-      </section>
-
-      <section className="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
-        <div className="space-y-5">
-          <ContentSection title="Capabilities">
-            <ul className="grid gap-3 sm:grid-cols-2">
+      <div className="mt-12 grid gap-12 lg:grid-cols-12">
+        <div className="space-y-12 lg:col-span-8">
+          <ContentSection title="Yetkinlikler" number="01">
+            <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
               {startup.capabilities.map((capability) => (
-                <li key={capability} className="flex gap-2 rounded-xl border border-white/8 bg-black/15 p-3 text-sm text-zinc-400">
+                <li key={capability} className="flex gap-3 border-b border-divider pb-4 text-sm text-paper">
                   <Check className="mt-0.5 size-4 shrink-0 text-brand-300" />
                   {capability}
                 </li>
@@ -74,68 +74,60 @@ export function ProfilePage() {
             </ul>
           </ContentSection>
 
-          <ContentSection title="Evidence">
-            <ul className="grid gap-3 sm:grid-cols-2">
+          <ContentSection title="Kanıt" number="02">
+            <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
               {startup.evidence.map((evidence) => (
-                <li key={evidence} className="flex gap-2 text-sm text-zinc-400">
-                  <ShieldCheck className="mt-0.5 size-4 shrink-0 text-emerald-400" />
+                <li key={evidence} className="border-l border-emerald-500/40 pl-4 text-sm leading-6 text-muted">
                   {evidence}
                 </li>
               ))}
             </ul>
           </ContentSection>
 
-          <ContentSection title="Past POCs">
+          <ContentSection title="Geçmiş PoC’ler" number="03">
             {startup.pastPocs.map((poc) => (
-              <div key={poc.name} className="rounded-2xl border border-white/8 bg-black/15 p-5">
-                <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
-                  <div>
-                    <h3 className="font-semibold text-white">{poc.name}</h3>
-                    <p className="mt-1 text-xs text-zinc-600">Duration: {poc.duration}</p>
-                  </div>
-                  <span className="w-fit rounded-full border border-emerald-400/15 bg-emerald-400/[0.07] px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] text-emerald-300">
-                    {poc.status}
-                  </span>
+              <article key={poc.name} className="grid gap-7 border-b border-divider pb-7 sm:grid-cols-3">
+                <div className="sm:col-span-2">
+                  <h3 className="text-xl font-semibold text-paper">{poc.name}</h3>
+                  <p className="mt-2 text-sm text-muted">Süre: {poc.duration}</p>
                 </div>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-700">Target</p>
-                    <p className="mt-1 text-sm text-zinc-400">{poc.target}</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-700">Result</p>
-                    <p className="mt-1 text-sm font-semibold text-emerald-300">{poc.result}</p>
-                  </div>
+                <p className="text-xs text-emerald-300 sm:text-right">
+                  {poc.status === 'VERIFIED' ? 'DOĞRULANDI' : 'TAMAMLANDI'}
+                </p>
+                <div>
+                  <p className="font-mono text-[10px] text-muted">HEDEF</p>
+                  <p className="mt-2 text-sm text-paper">{poc.target}</p>
                 </div>
-              </div>
+                <div>
+                  <p className="font-mono text-[10px] text-muted">SONUÇ</p>
+                  <p className="mt-2 text-lg font-medium text-emerald-300">{poc.result}</p>
+                </div>
+              </article>
             ))}
           </ContentSection>
         </div>
 
-        <aside className="space-y-5">
-          <ContentSection title="Verified Outcomes">
-            <div className="space-y-3">
+        <aside className="space-y-12 lg:col-span-4 lg:border-l lg:border-divider lg:pl-8">
+          <ContentSection title="Doğrulanmış Sonuçlar" number="04">
+            <div className="space-y-5">
               {startup.verifiedOutcomes.map((outcome) => (
-                <div key={outcome} className="flex gap-2 text-sm leading-6 text-zinc-300">
-                  <ShieldCheck className="mt-1 size-4 shrink-0 text-emerald-400" />
-                  {outcome}
-                </div>
+                <p key={outcome} className="border-b border-divider pb-4 text-sm leading-6 text-paper">{outcome}</p>
               ))}
             </div>
           </ContentSection>
 
-          <ContentSection title="Match Explanation">
-            <div className="flex items-end gap-2">
-              <strong className="text-4xl font-semibold tracking-tight text-white">{startup.matchScore}%</strong>
-              <span className="pb-1 text-xs text-zinc-600">challenge fit</span>
+          <ContentSection title="Eşleşme Açıklaması" number="05">
+            <div className="flex items-baseline gap-3">
+              <strong className="font-mono text-5xl font-semibold tracking-[-0.06em] text-paper">%{startup.matchScore}</strong>
+              <span className="text-xs text-muted">ihtiyaç uyumu</span>
             </div>
-            <p className="mt-4 text-sm leading-6 text-zinc-400">{startup.matchExplanation}</p>
-            <div className="mt-5">
+            <p className="mt-5 text-sm leading-7 text-muted">{startup.matchExplanation}</p>
+            <div className="mt-7">
               <ScoreBreakdown breakdown={startup.matchBreakdown} />
             </div>
           </ContentSection>
         </aside>
-      </section>
+      </div>
     </PageContainer>
   )
 }
@@ -143,17 +135,20 @@ export function ProfilePage() {
 function CompanyDetail({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-zinc-700">{label}</p>
-      <p className="mt-2 text-sm leading-6 text-zinc-300">{values.join(' · ')}</p>
+      <dt className="font-mono text-[10px] text-muted">{label}</dt>
+      <dd className="mt-2 text-sm leading-6 text-paper">{values.join(' / ')}</dd>
     </div>
   )
 }
 
-function ContentSection({ title, children }: { title: string; children: React.ReactNode }) {
+function ContentSection({ title, number, children }: { title: string; number: string; children: ReactNode }) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-      <h2 className="text-base font-semibold text-white">{title}</h2>
-      <div className="mt-5">{children}</div>
+    <section>
+      <div className="mb-6 flex items-center justify-between border-b border-divider pb-4">
+        <h2 className="text-lg font-semibold text-paper">{title}</h2>
+        <span className="font-mono text-xs text-muted">{number}</span>
+      </div>
+      {children}
     </section>
   )
 }

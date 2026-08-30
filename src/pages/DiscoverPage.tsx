@@ -1,4 +1,4 @@
-import { ArrowUpRight, Building2, Search, ShieldCheck, Target } from 'lucide-react'
+import { ArrowUpRight, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PageContainer } from '../components/PageContainer'
@@ -11,9 +11,9 @@ import { startups } from '../data/startups'
 type DiscoverTab = 'startups' | 'challenges' | 'pocs'
 
 const tabs: { id: DiscoverTab; label: string }[] = [
-  { id: 'startups', label: 'Startups' },
-  { id: 'challenges', label: 'Open Challenges' },
-  { id: 'pocs', label: 'Verified POCs' },
+  { id: 'startups', label: 'Girişimler' },
+  { id: 'challenges', label: 'Açık İhtiyaçlar' },
+  { id: 'pocs', label: 'Doğrulanmış PoC’ler' },
 ]
 
 export function DiscoverPage() {
@@ -48,27 +48,33 @@ export function DiscoverPage() {
         .includes(normalizedQuery),
   )
 
+  const isEmpty =
+    (activeTab === 'startups' && filteredStartups.length === 0) ||
+    (activeTab === 'challenges' && filteredChallenges.length === 0) ||
+    (activeTab === 'pocs' && verifiedPocs.length === 0)
+
   return (
-    <PageContainer className="py-12 sm:py-16">
+    <PageContainer className="py-12 sm:py-16 lg:py-20">
       <PageHeading
-        eyebrow="Discover"
-        title="Explore the collaboration ecosystem."
-        description="Find startup capabilities, open business challenges, and verified POC evidence in one searchable surface."
+        eyebrow="KEŞFET"
+        title="İş birliği ekosistemini keşfedin."
+        description="Girişimleri, açık ihtiyaçları ve doğrulanmış PoC sonuçlarını tek bir yerde keşfedin."
       />
 
-      <label className="mt-9 flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3.5 focus-within:border-brand-400/50">
-        <Search className="size-4 text-zinc-500" />
-        <span className="sr-only">Search the collaboration ecosystem</span>
+      <label className="mt-12 flex items-center gap-4 border-y border-divider py-4 focus-within:border-brand-300">
+        <Search className="size-4 text-muted" />
+        <span className="sr-only">İş birliği ekosisteminde ara</span>
         <input
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search startups, technologies, industries or challenges"
-          className="w-full bg-transparent text-sm text-white outline-none placeholder:text-zinc-600"
+          placeholder="Girişim, teknoloji, sektör veya ihtiyaç ara"
+          className="w-full bg-transparent text-base text-paper outline-none placeholder:text-muted/60"
         />
+        <span className="hidden font-mono text-[10px] text-muted sm:block">ARAMA</span>
       </label>
 
-      <div className="mt-6 flex gap-1 overflow-x-auto border-b border-white/8" role="tablist" aria-label="Discover categories">
+      <div className="mt-7 flex gap-8 overflow-x-auto border-b border-divider" role="tablist" aria-label="Keşif kategorileri">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -76,87 +82,87 @@ export function DiscoverPage() {
             role="tab"
             aria-selected={activeTab === tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`shrink-0 border-b-2 px-4 py-3 text-sm font-medium transition-colors ${activeTab === tab.id ? 'border-brand-400 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}
+            className={`relative shrink-0 pb-4 text-sm transition-colors ${activeTab === tab.id ? 'text-paper' : 'text-muted hover:text-paper'}`}
           >
             {tab.label}
+            {activeTab === tab.id && <span className="absolute inset-x-0 bottom-0 h-px bg-brand-300" />}
           </button>
         ))}
       </div>
 
-      <div className="mt-6" role="tabpanel">
-        {activeTab === 'startups' && (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredStartups.map((startup) => (
-              <StartupCard key={startup.id} startup={startup} />
-            ))}
+      <div className="mt-7" role="tabpanel">
+        {activeTab === 'startups' && filteredStartups.length > 0 && (
+          <div className="grid lg:grid-cols-12">
+            <div className="lg:col-span-7 lg:border-r lg:border-divider">
+              <StartupCard startup={filteredStartups[0]} index={0} featured />
+            </div>
+            <div className="lg:col-span-5 lg:pl-10">
+              {filteredStartups.slice(1).map((startup, index) => (
+                <StartupCard key={startup.id} startup={startup} index={index + 1} />
+              ))}
+            </div>
           </div>
         )}
 
         {activeTab === 'challenges' && (
-          <div className="grid gap-4 md:grid-cols-2">
-            {filteredChallenges.map((challenge) => (
-              <article key={challenge.id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/20 bg-amber-400/10 px-2.5 py-1 text-[10px] font-bold tracking-[0.12em] text-amber-300">
-                    <Target className="size-3" />
-                    {challenge.status}
-                  </span>
-                  <Building2 className="size-4 text-zinc-700" />
+          <div>
+            {filteredChallenges.map((challenge, index) => (
+              <article key={challenge.id} className="grid gap-6 border-b border-divider py-8 lg:grid-cols-12">
+                <div className="lg:col-span-2">
+                  <span className="font-mono text-xs text-muted">0{index + 1}</span>
+                  <p className="mt-3 text-xs text-amber-300">AÇIK İHTİYAÇ</p>
                 </div>
-                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.13em] text-zinc-600">{challenge.company}</p>
-                <h3 className="mt-2 text-lg font-semibold leading-6 text-white">{challenge.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-zinc-500">{challenge.summary}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {challenge.tags.map((tag) => (
-                    <span key={tag} className="rounded-md border border-white/8 bg-black/20 px-2 py-1 text-xs text-zinc-500">{tag}</span>
-                  ))}
+                <div className="lg:col-span-7">
+                  <p className="text-sm text-muted">{challenge.company}</p>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-paper">{challenge.title}</h3>
+                  <p className="mt-4 max-w-2xl text-sm leading-7 text-muted">{challenge.summary}</p>
+                  <p className="mt-5 text-xs text-paper">{challenge.tags.join(' / ')}</p>
                 </div>
-                <Link to="/challenge" className="mt-6 flex items-center gap-1.5 text-sm font-medium text-zinc-300 hover:text-white">
-                  Explore challenge
-                  <ArrowUpRight className="size-4" />
-                </Link>
+                <div className="flex items-end lg:col-span-3 lg:justify-end">
+                  <Link to="/challenge" className="inline-flex items-center gap-2 border-b border-divider pb-2 text-sm text-paper hover:border-paper">
+                    İhtiyacı incele
+                    <ArrowUpRight className="size-4" />
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
         )}
 
         {activeTab === 'pocs' && (
-          <div className="grid gap-4 md:grid-cols-2">
-            {verifiedPocs.map((poc) => (
-              <article key={poc.id} className="rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.035] p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.13em] text-emerald-300">
-                      <ShieldCheck className="size-3.5" />
-                      VERIFIED POC
-                    </span>
-                    <p className="mt-4 text-xs font-semibold uppercase tracking-[0.13em] text-zinc-600">{poc.partners}</p>
-                    <h3 className="mt-2 text-lg font-semibold text-white">{poc.title}</h3>
-                  </div>
-                  <span className="text-xs text-zinc-600">{poc.duration}</span>
+          <div>
+            {verifiedPocs.map((poc, index) => (
+              <article key={poc.id} className="grid gap-7 border-b border-divider py-9 lg:grid-cols-12">
+                <div className="lg:col-span-2">
+                  <span className="font-mono text-xs text-muted">0{index + 1}</span>
+                  <p className="mt-3 text-xs text-emerald-300">DOĞRULANMIŞ PoC</p>
                 </div>
-                <div className="mt-5 grid grid-cols-3 gap-2">
+                <div className="lg:col-span-5">
+                  <p className="text-sm text-muted">{poc.partners}</p>
+                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-paper">{poc.title}</h3>
+                  <p className="mt-4 text-xs text-muted">{poc.duration}</p>
+                </div>
+                <div className="grid grid-cols-3 gap-5 border-l border-divider pl-6 lg:col-span-4">
                   {poc.kpis.map((kpi) => (
-                    <div key={kpi.label} className="rounded-xl border border-white/8 bg-black/15 p-3">
-                      <strong className="text-sm text-emerald-300">{kpi.current}</strong>
-                      <p className="mt-1 text-[10px] leading-4 text-zinc-600">{kpi.label}</p>
+                    <div key={kpi.label}>
+                      <strong className="font-mono text-lg text-paper">{kpi.current}</strong>
+                      <p className="mt-2 text-xs leading-5 text-muted">{kpi.label}</p>
                     </div>
                   ))}
                 </div>
-                <Link to={`/poc/${poc.id}`} className="mt-6 flex items-center gap-1.5 text-sm font-medium text-zinc-300 hover:text-white">
-                  View evidence
-                  <ArrowUpRight className="size-4" />
-                </Link>
+                <div className="flex items-end justify-end lg:col-span-1">
+                  <Link to={`/poc/${poc.id}`} aria-label="PoC kanıtını incele" className="text-muted hover:text-paper">
+                    <ArrowUpRight className="size-5" />
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
         )}
 
-        {((activeTab === 'startups' && filteredStartups.length === 0) ||
-          (activeTab === 'challenges' && filteredChallenges.length === 0) ||
-          (activeTab === 'pocs' && verifiedPocs.length === 0)) && (
-          <div className="rounded-2xl border border-white/8 p-8 text-center text-sm text-zinc-600">
-            No ecosystem records match this search.
+        {isEmpty && (
+          <div className="border-y border-divider py-14 text-center text-sm text-muted">
+            Bu aramayla eşleşen ekosistem kaydı bulunamadı.
           </div>
         )}
       </div>

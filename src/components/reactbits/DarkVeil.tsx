@@ -3,7 +3,7 @@
  *
  * The official component is not available locally, so this file intentionally
  * contains no imitation. Copy the React/Tailwind Dark Veil source from React
- * Bits into this file, including its documented runtime dependency, then swap
- * DarkVeilFallback for the official component in HomePage.
+ * Bits into this file, including its documented runtime dependency, then add
+ * it to HomePage at restrained opacity.
  */
 export {}

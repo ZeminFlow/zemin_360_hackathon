@@ -1,41 +1,54 @@
-import { ArrowUpRight, MapPin, ShieldCheck } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import type { Startup } from '../types/startup'
 
-export function StartupCard({ startup }: { startup: Startup }) {
+interface StartupCardProps {
+  startup: Startup
+  index: number
+  featured?: boolean
+}
+
+export function StartupCard({ startup, index, featured = false }: StartupCardProps) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <span className={`grid size-11 place-items-center rounded-xl bg-gradient-to-br ${startup.accentClass} text-xs font-bold text-white`}>
-            {startup.initials}
-          </span>
-          <div>
-            <h3 className="font-semibold text-white">{startup.name}</h3>
-            <p className="mt-0.5 text-xs text-brand-300">{startup.category}</p>
-          </div>
-        </div>
-        <ShieldCheck className="size-4 text-emerald-400" aria-label="Evidence verified" />
+    <article className={`group flex h-full flex-col border-t border-divider py-7 ${featured ? 'lg:pr-10' : ''}`}>
+      <div className="flex items-start justify-between gap-5">
+        <span className="font-mono text-xs text-muted">0{index + 1}</span>
+        <span className="text-xs text-emerald-400">KANITLI</span>
       </div>
 
-      <p className="mt-5 text-sm leading-6 text-zinc-500">{startup.summary}</p>
-      <p className="mt-4 flex items-center gap-1.5 text-xs text-zinc-600">
-        <MapPin className="size-3.5" />
-        {startup.location} · {startup.stage}
-      </p>
-
-      <div className="mt-5 flex flex-wrap gap-2">
-        {startup.tags.map((tag) => (
-          <span key={tag} className="rounded-md border border-white/8 bg-black/20 px-2 py-1 text-xs text-zinc-500">
-            {tag}
-          </span>
-        ))}
+      <div className={featured ? 'mt-12' : 'mt-8'}>
+        <h3 className={`${featured ? 'text-4xl' : 'text-2xl'} font-semibold tracking-[-0.04em] text-paper`}>{startup.name}</h3>
+        <p className="mt-2 text-sm text-brand-300">{startup.category}</p>
+        <p className="mt-5 max-w-xl text-sm leading-7 text-muted">{startup.summary}</p>
       </div>
 
-      <Link to={`/profile/${startup.id}`} className="mt-auto flex items-center gap-1.5 pt-6 text-sm font-medium text-zinc-300 hover:text-white">
-        View startup
+      <dl className={`mt-8 grid gap-5 border-y border-divider py-5 ${featured ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
+        <Detail label="KONUM" value={startup.location} />
+        <Detail label="ÖLÇEK" value={startup.stage} />
+        <Detail label="KANIT" value={startup.evidence[0]} />
+      </dl>
+
+      <div className="mt-6">
+        <p className="text-[11px] text-muted">TEKNOLOJİLER</p>
+        <p className="mt-2 text-sm leading-6 text-paper">{startup.technologies.join(' / ')}</p>
+      </div>
+
+      <Link
+        to={`/profile/${startup.id}`}
+        className="mt-auto flex items-center justify-between border-b border-divider pt-8 pb-3 text-sm font-medium text-paper transition-colors group-hover:border-paper"
+      >
+        Girişimi İncele
         <ArrowUpRight className="size-4" />
       </Link>
     </article>
+  )
+}
+
+function Detail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-mono text-[10px] text-muted">{label}</dt>
+      <dd className="mt-2 text-sm text-paper">{value}</dd>
+    </div>
   )
 }

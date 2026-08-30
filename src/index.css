@@ -2,6 +2,12 @@
 
 @theme {
   --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+  --color-canvas: #0a0a0a;
+  --color-panel: #111111;
+  --color-paper: #f2f0ea;
+  --color-muted: #8b8b91;
+  --color-divider: #29292d;
   --color-brand-300: #c4b5fd;
   --color-brand-400: #a78bfa;
   --color-brand-500: #8b5cf6;
@@ -9,8 +15,8 @@
 }
 
 :root {
-  color: #f4f4f5;
-  background: #09090b;
+  color: #f2f0ea;
+  background: #0a0a0a;
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,7 +25,7 @@
 }
 
 html {
-  background: #09090b;
+  background: #0a0a0a;
   scroll-behavior: smooth;
 }
 
@@ -41,6 +47,6 @@ a {
 }
 
 ::selection {
-  color: #ffffff;
-  background: rgba(139, 92, 246, 0.55);
+  color: #0a0a0a;
+  background: #c4b5fd;
 }

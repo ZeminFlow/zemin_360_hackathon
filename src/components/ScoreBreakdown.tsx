@@ -6,26 +6,26 @@ interface ScoreBreakdownProps {
 
 export function ScoreBreakdown({ breakdown }: ScoreBreakdownProps) {
   const scores = [
-    { label: 'Problem Fit', value: breakdown.problemFit },
-    { label: 'Evidence', value: breakdown.evidence },
-    { label: 'POC Readiness', value: breakdown.pocReadiness },
-    { label: 'Industry Fit', value: breakdown.industryFit },
+    { label: 'Problem Uyumu', value: breakdown.problemFit },
+    { label: 'Kanıt', value: breakdown.evidence },
+    { label: 'PoC Hazırlığı', value: breakdown.pocReadiness },
+    { label: 'Sektör Uyumu', value: breakdown.industryFit },
   ]
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-black/15 p-4">
-      <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-600">Score breakdown</p>
-        <p className="text-[10px] text-zinc-700">Explainable match</p>
+    <div>
+      <div className="flex items-center justify-between border-b border-divider pb-3">
+        <p className="text-sm font-medium text-paper">Skor bileşenleri</p>
+        <p className="text-xs text-muted">Açıklanabilir eşleşme</p>
       </div>
-      <div className="space-y-3">
+      <div>
         {scores.map((score) => (
-          <div key={score.label} className="grid grid-cols-[90px_1fr_28px] items-center gap-3">
-            <span className="text-[11px] text-zinc-500">{score.label}</span>
-            <span className="h-1 overflow-hidden rounded-full bg-white/8">
-              <span className="block h-full rounded-full bg-brand-400" style={{ width: `${score.value}%` }} />
+          <div key={score.label} className="grid grid-cols-[120px_1fr_34px] items-center gap-4 border-b border-divider py-3">
+            <span className="text-xs text-muted">{score.label}</span>
+            <span className="h-px bg-divider">
+              <span className="block h-px bg-brand-300" style={{ width: `${score.value}%` }} />
             </span>
-            <strong className="text-right text-xs font-semibold text-zinc-300">{score.value}</strong>
+            <strong className="text-right font-mono text-xs font-medium text-paper">{score.value}</strong>
           </div>
         ))}
       </div>

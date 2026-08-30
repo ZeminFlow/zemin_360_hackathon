@@ -1,4 +1,4 @@
-import { ArrowLeft, LoaderCircle, Sparkles } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MatchCard } from '../components/MatchCard'
@@ -27,38 +27,38 @@ export function MatchesPage() {
   }, [])
 
   return (
-    <PageContainer className="py-12 sm:py-16">
-      <Link to="/challenge" className="mb-8 inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white">
+    <PageContainer className="py-12 sm:py-16 lg:py-20">
+      <Link to="/challenge" className="mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-paper">
         <ArrowLeft className="size-4" />
-        Back to challenge
+        İhtiyaca dön
       </Link>
+
       <PageHeading
-        eyebrow="AI Match Results"
-        title="Best matches for this challenge"
-        description="Ranked by capability, evidence and POC fit. Every recommendation includes the signals behind its score."
+        eyebrow="EŞLEŞME SONUÇLARI"
+        title="Bu ihtiyaç için en güçlü eşleşmeler"
+        description="Yetkinlik, kanıt ve PoC uyumuna göre sıralandı. Her öneri, skoru oluşturan sinyallerle birlikte sunulur."
       />
 
-      <div className="mt-7 flex flex-wrap items-center gap-2">
-        <span className="rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2 text-xs text-zinc-500">Energy Efficiency</span>
-        <span className="rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2 text-xs text-zinc-500">Manufacturing</span>
-        <span className="rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2 text-xs text-zinc-500">8–12 week POC</span>
-        <span className="ml-auto text-xs text-zinc-700">Readiness: 82 / 100</span>
+      <div className="mt-10 grid gap-y-3 border-y border-divider py-4 text-xs text-muted sm:grid-cols-4">
+        <span>Enerji Verimliliği</span>
+        <span>Üretim</span>
+        <span>8–12 haftalık PoC</span>
+        <span className="font-mono sm:text-right">Hazırlık 82 / 100</span>
       </div>
 
       {isLoading ? (
-        <div className="mt-8 grid min-h-64 place-items-center rounded-3xl border border-brand-400/15 bg-brand-500/[0.04] text-center">
+        <div className="mt-10 flex min-h-64 items-center justify-center border-y border-divider text-center">
           <div>
-            <LoaderCircle className="mx-auto size-7 animate-spin text-brand-300" />
-            <p className="mt-4 text-sm font-medium text-white">Ranking startup evidence</p>
-            <p className="mt-1 text-xs text-zinc-600">Comparing capability, proof, industry fit, and POC readiness…</p>
+            <LoaderCircle className="mx-auto size-6 animate-spin text-brand-300" />
+            <p className="mt-4 text-sm font-medium text-paper">Girişim kanıtları sıralanıyor</p>
+            <p className="mt-2 text-xs text-muted">Yetkinlik, kanıt, sektör uyumu ve PoC hazırlığı karşılaştırılıyor…</p>
           </div>
         </div>
       ) : (
-        <div className="mt-8 space-y-4" aria-live="polite">
-          <div className="flex items-center gap-2 rounded-xl border border-emerald-400/15 bg-emerald-400/[0.05] px-4 py-3 text-xs text-emerald-300">
-            <Sparkles className="size-3.5" />
-            3 evidence-backed matches generated from your structured challenge.
-          </div>
+        <div className="mt-6" aria-live="polite">
+          <p className="border-b border-divider py-4 text-xs text-emerald-400">
+            Yapılandırılmış ihtiyacınız için 3 kanıta dayalı eşleşme üretildi.
+          </p>
           {matches.map((startup, index) => (
             <MatchCard key={startup.id} startup={startup} rank={index + 1} />
           ))}

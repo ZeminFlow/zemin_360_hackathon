@@ -1,112 +1,183 @@
-import {
-  ArrowDown,
-  ArrowRight,
-  CheckCircle2,
-  FileInput,
-  FlaskConical,
-  Network,
-  SearchCheck,
-  ShieldCheck,
-} from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { FeedCard } from '../components/FeedCard'
 import { PageContainer } from '../components/PageContainer'
-import { feedItems } from '../data/feed'
 
 const flowSteps = [
-  { label: 'Need', detail: 'Energy inefficiency', icon: FileInput },
-  { label: '82% Ready', detail: 'Challenge structured', icon: ShieldCheck },
-  { label: '3 Matches', detail: 'Evidence ranked', icon: SearchCheck },
-  { label: 'POC', detail: '8 week pilot', icon: FlaskConical },
-  { label: 'Verified', detail: 'Outcome published', icon: CheckCircle2 },
+  {
+    number: '01',
+    stage: 'İHTİYAÇ',
+    primary: 'Atlas Manufacturing',
+    secondary: 'Enerji tüketimini azaltmak',
+  },
+  {
+    number: '02',
+    stage: 'HAZIRLIK',
+    primary: '%82',
+    secondary: 'İş birliğine hazır',
+    technical: true,
+  },
+  {
+    number: '03',
+    stage: 'EŞLEŞME',
+    primary: 'Enerwise AI',
+    secondary: '%94 uyum',
+  },
+  {
+    number: '04',
+    stage: 'PoC',
+    primary: '8 hafta',
+    secondary: 'Endüstriyel Enerji Optimizasyonu',
+  },
+  {
+    number: '05',
+    stage: 'DOĞRULANMIŞ SONUÇ',
+    primary: '↓ %18,2',
+    secondary: 'Enerji tüketimi',
+    result: true,
+  },
 ]
 
 export function HomePage() {
   return (
-    <PageContainer className="py-14 sm:py-20">
-      <section className="grid items-center gap-12 border-b border-white/8 pb-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pb-20">
-        <div className="max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-400/20 bg-brand-500/10 px-3 py-1.5 text-xs font-semibold tracking-[0.13em] text-brand-300">
-            FROM NEED TO VERIFIED COLLABORATION
-          </div>
-          <h1 className="text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">
-            Turn business problems into{' '}
-            <span className="text-brand-300">proven collaborations.</span>
-          </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-zinc-400">
-            Structure your challenge, discover the right startups, and run measurable POCs — all in one flow.
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link
-              to="/challenge"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 transition-colors hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-            >
-              Start a Challenge
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              to="/network"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-400"
-            >
-              <Network className="size-4" />
-              Explore Network
-            </Link>
-          </div>
-        </div>
+    <>
+      <PageContainer>
+        <section className="relative border-b border-divider py-16 sm:py-20 lg:py-24">
+          <div className="pointer-events-none absolute inset-y-0 left-[58.333%] hidden w-px bg-divider/60 lg:block" />
 
-        <aside className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
-          <div className="flex items-center justify-between border-b border-white/8 pb-4">
-            <div>
-              <p className="text-sm font-semibold text-white">Live Flow</p>
-              <p className="mt-1 text-xs text-zinc-600">Atlas Manufacturing</p>
-            </div>
-            <span className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-300">
-              <span className="size-1.5 rounded-full bg-emerald-400" />
-              Active
-            </span>
-          </div>
+          <div className="grid gap-16 lg:grid-cols-12 lg:gap-0">
+            <div className="lg:col-span-7 lg:pr-14 xl:pr-20">
+              <p className="flex items-center gap-4 text-xs font-medium tracking-[0.16em] text-brand-300">
+                <span className="h-px w-9 bg-brand-300" />
+                İHTİYAÇTAN DOĞRULANMIŞ İŞ BİRLİĞİNE
+              </p>
 
-          <div className="mt-4">
-            {flowSteps.map(({ label, detail, icon: Icon }, index) => (
-              <div key={label}>
-                <div className="flex items-center gap-4 rounded-xl border border-white/8 bg-black/15 px-4 py-3">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-500/12 text-brand-300">
-                    <Icon className="size-4" />
-                  </span>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-white">{label}</p>
-                    <p className="mt-0.5 text-xs text-zinc-600">{detail}</p>
-                  </div>
-                  {index < 3 && <span className="size-1.5 rounded-full bg-emerald-400" />}
-                </div>
-                {index < flowSteps.length - 1 && (
-                  <div className="flex h-5 items-center pl-7 text-zinc-700">
-                    <ArrowDown className="size-3" />
-                  </div>
-                )}
+              <h1 className="mt-9 max-w-4xl text-[clamp(3rem,5.6vw,5.6rem)] font-semibold leading-[0.93] tracking-[-0.06em] text-paper">
+                İş problemlerini
+                <br />
+                <span className="text-muted">kanıtlanmış iş birliklerine</span>
+                <br />
+                dönüştürün.
+              </h1>
+
+              <p className="mt-9 max-w-xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
+                İhtiyacınızı yapılandırın, doğru girişimlerle eşleşin ve ölçülebilir PoC süreçlerini tek bir akışta yönetin.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/challenge"
+                  className="inline-flex items-center justify-center gap-3 bg-paper px-5 py-3.5 text-sm font-semibold text-canvas transition-colors hover:bg-brand-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
+                >
+                  İhtiyaç Oluştur
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link
+                  to="/network"
+                  className="inline-flex items-center justify-center gap-3 border border-divider px-5 py-3.5 text-sm font-medium text-paper transition-colors hover:border-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
+                >
+                  Ağı Keşfet
+                  <ArrowUpRight className="size-4" />
+                </Link>
               </div>
-            ))}
-          </div>
-        </aside>
-      </section>
+            </div>
 
-      <section className="pt-14 sm:pt-16">
-        <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">Collaboration activity</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">What the ecosystem is proving</h2>
-          </div>
-          <Link to="/network" className="flex items-center gap-1.5 text-sm font-medium text-zinc-400 hover:text-white">
-            Explore the network <ArrowRight className="size-4" />
-          </Link>
-        </div>
+            <aside className="lg:col-span-5 lg:pl-14 xl:pl-20">
+              <div className="flex items-center justify-between border-b border-divider pb-4">
+                <p className="text-sm font-medium text-paper">ZeminFlow süreci</p>
+                <span className="font-mono text-[11px] text-muted">CANLI / 05</span>
+              </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {feedItems.map((item) => (
-            <FeedCard key={item.id} item={item} compact />
-          ))}
-        </div>
-      </section>
-    </PageContainer>
+              <div className="relative mt-7">
+                <span className="absolute bottom-8 left-[19px] top-6 w-px bg-divider" />
+                {flowSteps.map((step, index) => (
+                  <div
+                    key={step.number}
+                    className={`relative grid grid-cols-[40px_1fr] gap-5 ${index < flowSteps.length - 1 ? 'pb-8' : ''}`}
+                  >
+                    <span className={`relative z-10 grid size-10 place-items-center border bg-canvas font-mono text-[11px] ${step.result ? 'border-emerald-500/60 text-emerald-300' : 'border-divider text-muted'}`}>
+                      {step.number}
+                    </span>
+                    <div className={step.result ? 'border-t border-emerald-500/30 pt-3' : 'pt-1'}>
+                      <p className={`text-[11px] font-medium tracking-[0.13em] ${step.result ? 'text-emerald-300' : 'text-muted'}`}>
+                        {step.stage}
+                      </p>
+                      <p className={`mt-2 ${step.result ? 'font-mono text-4xl font-semibold tracking-[-0.05em] text-paper' : step.technical ? 'font-mono text-2xl text-paper' : 'text-base font-medium text-paper'}`}>
+                        {step.primary}
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-muted">{step.secondary}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </aside>
+          </div>
+        </section>
+      </PageContainer>
+
+      <PageContainer className="py-16 sm:py-20">
+        <section>
+          <div className="grid gap-6 border-b border-divider pb-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <p className="text-xs font-medium tracking-[0.16em] text-brand-300">EKOSİSTEMDEN</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] text-paper sm:text-5xl">
+                İş birlikleri ilerledikçe kanıt oluşur.
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-muted lg:col-span-5">
+              Açık ihtiyaçlar, devam eden PoC’ler ve doğrulanmış sonuçlar ekosistemde yeniden kullanılabilir bilgiye dönüşür.
+            </p>
+          </div>
+
+          <div className="grid border-b border-divider lg:grid-cols-12">
+            <Link
+              to="/profile/enerwise-ai"
+              className="group flex min-h-[430px] flex-col border-b border-divider py-10 lg:col-span-7 lg:border-b-0 lg:border-r lg:pr-14"
+            >
+              <div className="flex items-start justify-between gap-5">
+                <p className="text-xs font-medium tracking-[0.14em] text-emerald-300">DOĞRULANMIŞ SONUÇ</p>
+                <ArrowUpRight className="size-4 text-muted transition-colors group-hover:text-paper" />
+              </div>
+              <div className="mt-12">
+                <p className="text-sm text-muted">Atlas Manufacturing × Enerwise AI</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-paper">Endüstriyel Enerji Optimizasyonu</h3>
+              </div>
+              <div className="mt-auto grid gap-8 border-t border-divider pt-8 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <strong className="font-mono text-6xl font-semibold tracking-[-0.07em] text-paper sm:text-7xl">↓ %18,2</strong>
+                  <p className="mt-3 text-sm text-muted">Enerji tüketimi</p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <p className="text-sm text-paper">8 haftalık PoC</p>
+                  <p className="mt-2 text-xs font-medium tracking-[0.13em] text-emerald-300">DOĞRULANDI</p>
+                </div>
+              </div>
+            </Link>
+
+            <div className="lg:col-span-5 lg:pl-10">
+              <Link to="/discover" className="group block border-b border-divider py-10">
+                <div className="flex items-start justify-between">
+                  <p className="text-xs font-medium tracking-[0.14em] text-amber-300">AÇIK İHTİYAÇ</p>
+                  <ArrowUpRight className="size-4 text-muted transition-colors group-hover:text-paper" />
+                </div>
+                <p className="mt-9 text-sm text-muted">RetailCo</p>
+                <h3 className="mt-2 max-w-md text-2xl font-semibold tracking-[-0.03em] text-paper">Online ürün iadelerini azaltma</h3>
+              </Link>
+
+              <Link to="/network" className="group block py-10">
+                <div className="flex items-start justify-between">
+                  <p className="text-xs font-medium tracking-[0.14em] text-brand-300">PoC DEVAM EDİYOR</p>
+                  <span className="font-mono text-xs text-muted">4 / 8. hafta</span>
+                </div>
+                <p className="mt-9 text-sm text-muted">LogiCore × RouteMind</p>
+                <div className="mt-2 flex items-end justify-between gap-5">
+                  <h3 className="text-2xl font-semibold tracking-[-0.03em] text-paper">Filo pilotu</h3>
+                  <ArrowUpRight className="size-4 text-muted transition-colors group-hover:text-paper" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </PageContainer>
+    </>
   )
 }
